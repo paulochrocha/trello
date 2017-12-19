@@ -127,7 +127,7 @@ var getBoard=function(board){
 			var member=_.find(board.members, function(m) {
 				return m.id==id;
 			});
-			return member.username;
+			return member.fullName;
 		});// iterate on members
 	});//iterate on cards
 
@@ -155,7 +155,7 @@ var getBoard=function(board){
 			default:
 				date=new Date(text);
 			}
-			return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+			return date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
 		};
 	};
 	board.formatComments=function(){
@@ -164,8 +164,8 @@ var getBoard=function(board){
 	};		
 	//
 	// Start Rendering
-	board.displayColumns=["Name","Description","Due Date","Checklists","Members","Labels","Votes"];
-	var htmltemplate="<h1><span id='download'></span><span id='trello-link'></span><span id='printme'></span>{{name}} <span class='right'>{{#formatDate}}now{{/formatDate}}</span></h1>{{#lists}}<table><caption><h2>{{name}} <span class='show right'>{{size}}</span></h2></caption>{{#show}}<col width='20%' /><col width='30%' /><col width='5%' /><col width='25%' /><col width='5%' /><col width='10%' /><col width='5%' /><thead><tr>{{#displayColumns}}<th scope='col'>{{.}}</th>{{/displayColumns}}</tr></thead>{{/show}}<tbody>{{#cards}}<tr><td scope='row'><b>{{name}}</b></td><td><div class='comments'>{{#formatComments}}{{desc}}{{/formatComments}}</div></td><td>{{#formatDate}}{{due}}{{/formatDate}}</td><td>{{#checklist}}<div>{{{.}}}</div>{{/checklist}}</td><td>{{#members}}<div>{{.}}</div>{{/members}}</td><td>{{#labels}}<div class='show {{color}}'>{{name}}&nbsp;</div>{{/labels}}</td><td>{{badges.votes}}</td></tr>{{/cards}}</tbody></table>{{/lists}}";
+	board.displayColumns=["Nome","Descrição","Data Limite","Checklists","Membros","Labels"];
+	var htmltemplate="<h1><span id='trello-link'></span><span id='printme'></span>{{name}} <span class='right'>{{#formatDate}}now{{/formatDate}}</span></h1>{{#lists}}<table><caption><h2>{{name}} <span class='show right'>{{size}}</span></h2></caption>{{#show}}<col width='20%' /><col width='30%' /><col width='5%' /><col width='25%' /><col width='5%' /><col width='10%' /><col width='5%' /><thead><tr>{{#displayColumns}}<th scope='col'>{{.}}</th>{{/displayColumns}}</tr></thead>{{/show}}<tbody>{{#cards}}<tr><td scope='row'><b>{{name}}</b></td><td><div class='comments'>{{#formatComments}}{{desc}}{{/formatComments}}</div></td><td>{{#formatDate}}{{due}}{{/formatDate}}</td><td>{{#checklist}}<div>{{{.}}}</div>{{/checklist}}</td><td>{{#members}}<div>{{.}}</div>{{/members}}</td><td>{{#labels}}<div class='show {{color}}'>{{name}}&nbsp;</div>{{/labels}}</td></tr>{{/cards}}</tbody></table>{{/lists}}";
 	var csvtemplate="";//TODO
 
 	var str=Mustache.render(htmltemplate,board);
@@ -192,7 +192,7 @@ var getBoard=function(board){
 	});
 	var button3=$("#printme");
 	button3.addClass("downloader");
-	button3.text("Print");
+	button3.text("Imprimir");
 	button3.click(function(){
 		print();
 	});
